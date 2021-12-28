@@ -32,5 +32,11 @@ public class OrganizerServiceImpl implements OrganizerService {
         }
     }
 
+    @Override
+    public List<Organizer> list() {
+        return organizerRepository.findAll();
+
+    }
+
 
 }

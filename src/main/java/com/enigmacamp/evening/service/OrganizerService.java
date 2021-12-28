@@ -10,5 +10,7 @@ public interface OrganizerService {
 
     Organizer getOrganizerById(String id);
 
+    List<Organizer> list();
+
 
 }

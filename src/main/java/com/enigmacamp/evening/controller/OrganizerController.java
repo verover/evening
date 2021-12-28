@@ -5,6 +5,8 @@ import com.enigmacamp.evening.service.OrganizerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/organizers")
 public class OrganizerController {
@@ -22,5 +24,9 @@ public class OrganizerController {
         return organizerService.getOrganizerById(id);
     }
 
+    @GetMapping
+    public List<Organizer> getListOrganizer(){
+        return organizerService.list();
+    }
 
 }
