@@ -13,7 +13,9 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -29,39 +31,44 @@ public class Ticket {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    String id;
+    private String id;
 
     @Column(name="event_id", nullable = false)
-    String eventId;
+    private String eventId;
     
     @Column(nullable = false)
-    String title;
+    private String title;
     
-    String description;
-    
-    @Column (nullable = false)
-    Integer price;
+    private String description;
     
     @Column (nullable = false)
-    Integer stock;
+    private Integer price;
     
     @Column (nullable = false)
-    Integer minAmmount;
+    private Integer stock;
     
     @Column (nullable = false)
-    Integer maxAmmount;
+    private Integer minAmmount;
+    
+    @Column (nullable = false)
+    private Integer maxAmmount;
 
     @OneToMany(targetEntity = TicketDetail.class, fetch = FetchType.EAGER)
     @JsonManagedReference
-    List<TicketDetail> ticketDetails;
+    private List<TicketDetail> ticketDetails;
 
     @CreatedDate
-    Date createdAt;
+    @JsonIgnore
+    @Column(updatable = false)
+    private Date createdAt;
 
     @UpdateTimestamp
-    Date updatedAt;
+    @JsonIgnore
+    private Date updatedAt;
 
-    Boolean isDeleted;
+    @JsonIgnore
+    @JsonSetter
+    private Boolean isDeleted;
 
     @PrePersist
     private void createdDate(){

@@ -2,6 +2,7 @@ package com.enigmacamp.evening.controller;
 
 import com.enigmacamp.evening.entity.Ticket;
 import com.enigmacamp.evening.service.TicketService;
+import com.enigmacamp.evening.util.WebResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,10 +20,11 @@ public class TicketController {
     TicketService ticketService;
 
     @PostMapping
-    public ResponseEntity<Ticket> createTicket(@RequestBody Ticket ticket){
+    public ResponseEntity<WebResponse<Ticket>> createTicket(@RequestBody Ticket ticket){
         Ticket newTicket = ticketService.create(ticket);
-        System.out.println(ticket);
-        return new ResponseEntity<Ticket>(newTicket, HttpStatus.CREATED);
+        return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(new WebResponse<>(String.format("Successfully Create New Ticket (%s)", newTicket.getId()), newTicket));
     }
 
     @GetMapping

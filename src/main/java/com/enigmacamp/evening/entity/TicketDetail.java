@@ -31,5 +31,5 @@ public class TicketDetail {
     @JsonBackReference
     Ticket ticket;
 
-    String event;
+    String eventDetailId;
 }
