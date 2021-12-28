@@ -21,7 +21,16 @@ public class OrganizerServiceImpl implements OrganizerService {
 
     }
 
+    @Override
+    public Organizer getOrganizerById(String id) {
+        Optional<Organizer> organizer = organizerRepository.findById(id);
 
+        if(organizer.isPresent()){
+            return organizer.get();
+        }else {
+            throw new RuntimeException(String.format("Organizer dengan id %s tidak ditemukan", id));
+        }
+    }
 
 
 }

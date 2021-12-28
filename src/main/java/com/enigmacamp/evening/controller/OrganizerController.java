@@ -17,6 +17,10 @@ public class OrganizerController {
         return organizerService.create(organizer);
     }
 
+    @GetMapping("/{organizerId}")
+    public Organizer getOrganizerById(@PathVariable("organizerId")String id){
+        return organizerService.getOrganizerById(id);
+    }
 
 
 }

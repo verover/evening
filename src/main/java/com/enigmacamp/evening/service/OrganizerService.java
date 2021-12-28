@@ -8,7 +8,7 @@ public interface OrganizerService {
 
     Organizer create(Organizer organizer);
 
-
+    Organizer getOrganizerById(String id);
 
 
 }
