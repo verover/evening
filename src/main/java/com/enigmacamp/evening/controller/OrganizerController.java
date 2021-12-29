@@ -29,4 +29,11 @@ public class OrganizerController {
         return organizerService.list();
     }
 
+    @PutMapping
+    public Organizer updateOrganizerByid (
+            @RequestBody Organizer organizer) {
+        return organizerService.updateOrganizerById(organizer);
+
+    }
+
 }

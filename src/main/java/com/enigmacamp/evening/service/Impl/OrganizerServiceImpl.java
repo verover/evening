@@ -5,6 +5,7 @@ import com.enigmacamp.evening.repository.OrganizerRepository;
 import com.enigmacamp.evening.service.OrganizerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +37,19 @@ public class OrganizerServiceImpl implements OrganizerService {
     public List<Organizer> list() {
         return organizerRepository.findAll();
 
+    }
+
+    @Override
+    public Organizer updateOrganizerById(Organizer organizer) {
+        Organizer currentOrganizer = getOrganizerById(organizer.getId());
+
+        currentOrganizer.setName(organizer.getName());
+        currentOrganizer.setAddress(organizer.getAddress());
+        currentOrganizer.setOrganization_email(organizer.getOrganization_email());
+        currentOrganizer.setOrganization_phone(organizer.getOrganization_phone());
+        currentOrganizer.setWebsite(organizer.getWebsite());
+
+        return organizerRepository.save(currentOrganizer);
     }
 
 

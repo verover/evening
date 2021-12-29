@@ -12,5 +12,7 @@ public interface OrganizerService {
 
     List<Organizer> list();
 
+    Organizer updateOrganizerById(Organizer organizer);
+
 
 }
