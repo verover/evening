@@ -24,4 +24,9 @@ public class EventDetailController {
     public List<EventDetail> findAll(){
         return eventDetailService.findAll();
     }
+
+    @GetMapping(value = "/{id}")
+    public EventDetail getById(@PathVariable("id") String id){
+        return eventDetailService.getById(id);
+    }
 }

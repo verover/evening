@@ -1,5 +1,6 @@
 package com.enigmacamp.evening.service.Impl;
 
+import com.enigmacamp.evening.dto.EventDTO;
 import com.enigmacamp.evening.dto.EventRequest;
 import com.enigmacamp.evening.entity.Category;
 import com.enigmacamp.evening.entity.Event;
@@ -13,7 +14,11 @@ import com.enigmacamp.evening.service.CategoryService;
 import com.enigmacamp.evening.service.EventDetailService;
 import com.enigmacamp.evening.service.EventService;
 import com.enigmacamp.evening.service.TopicsService;
+import com.enigmacamp.evening.specification.EventSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -67,9 +72,23 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void deleteById(String id) {
+    public String deleteById(String id) {
+        Event event = this.findByOrThrowNotFound(id);
+        if(event.getIsDeleted()){
+            throw new NotFoundException("Event Not Found");
+        }
+        event.setIsDeleted(true);
+        eventRepository.save(event);
+        return "Customer has been removed";
 
     }
+
+    @Override
+    public Page<Event> listWithPage(Pageable pageable, EventDTO eventDTO) {
+        Specification<Event> specification = EventSpecification.getSpecification(eventDTO);
+        return eventRepository.findAll(specification,pageable);
+    }
+
     public Event findByOrThrowNotFound(String id) {
         Optional<Event> event = this.eventRepository.findById(id);
         if (!event.isPresent()) {

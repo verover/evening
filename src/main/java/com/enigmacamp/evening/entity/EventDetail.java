@@ -19,7 +19,7 @@ public class EventDetail {
     private String eventDetailId;
 
     @ManyToOne(targetEntity = Event.class,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "event_id")
+    @JoinColumn(name = "event_id",referencedColumnName = "event_id")
     @JsonBackReference
     private Event event;
 
