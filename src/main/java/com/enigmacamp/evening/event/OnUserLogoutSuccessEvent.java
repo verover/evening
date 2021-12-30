@@ -10,7 +10,6 @@ import java.util.Date;
 @Getter
 @Setter
 public class OnUserLogoutSuccessEvent extends ApplicationEvent {
-    private static final long serialVersionUID = 1L;
     private final String userEmail;
     private final String token;
     private final transient LogOutRequest logOutRequest;

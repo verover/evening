@@ -1,6 +1,6 @@
 package com.enigmacamp.evening.security.jwt;
 
-import com.enigmacamp.evening.service.UserDetailsServiceImpl;
+import com.enigmacamp.evening.service.Impl.UserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

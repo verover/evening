@@ -1,5 +1,6 @@
 package com.enigmacamp.evening.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
@@ -39,6 +40,10 @@ public class User {
     @NotBlank(message = "Name can not be blank")
     private String name;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Column(nullable = false)
+    private Date birthDate;
+
     @Column(nullable = false)
     private Boolean active;
 
@@ -47,6 +52,23 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    @CreatedDate
+    private Date createdAt;
+
+    @LastModifiedDate
+    private Date updatedAt;
+
+    @PrePersist
+    public void createdDate() {
+        if (createdAt == null) createdAt = new Date();
+        if (updatedAt == null) updatedAt = new Date();
+    }
+
+    @PreUpdate
+    public void updatedDate() {
+        updatedAt = new Date();
+    }
 
     public void activate() {
         this.active = true;

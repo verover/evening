@@ -8,15 +8,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 @Getter
 @Setter
 public class UserPrincipal implements UserDetails {
-	private static final long serialVersionUID = 1L;
  
   	private String id;
  
@@ -26,21 +22,22 @@ public class UserPrincipal implements UserDetails {
  
     @JsonIgnore
     private String password;
+
+    private Date birthDate;
  
     private Collection<? extends GrantedAuthority> authorities;
     
     private Map<String, Object> attributes;
- 
-    public UserPrincipal(String id, String name,
-              String email, String password, 
-              Collection<? extends GrantedAuthority> authorities) {
+
+    public UserPrincipal(String id, String name, String email, String password, Date birthDate, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
+        this.birthDate = birthDate;
         this.authorities = authorities;
     }
- 
+
     public static UserPrincipal build(User user) {
         List<GrantedAuthority> authorities = user.getRoles().stream().map(role ->
                 new SimpleGrantedAuthority(role.getName().name())
@@ -51,6 +48,7 @@ public class UserPrincipal implements UserDetails {
                 user.getName(),
                 user.getEmail(),
                 user.getPassword(),
+                user.getBirthDate(),
                 authorities
         );
     }
@@ -87,15 +85,6 @@ public class UserPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
- 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        UserPrincipal user = (UserPrincipal) o;
-        return Objects.equals(id, user.id);
     }
 
 	public Map<String, Object> getAttributes() {

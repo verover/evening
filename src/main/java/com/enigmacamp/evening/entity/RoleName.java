@@ -1,7 +1,7 @@
 package com.enigmacamp.evening.entity;
 
 public enum RoleName {
-    USER_ROLE,
-    ORGANIZER_ROLE,
-    ADMIN_ROLE
+    ROLE_USER,
+    ROLE_ORGANIZER,
+    ROLE_ADMIN
 }

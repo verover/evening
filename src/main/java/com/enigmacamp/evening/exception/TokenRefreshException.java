@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
 public class TokenRefreshException extends RuntimeException {
 
-	private static final long serialVersionUID = 1L;
 	private final String token;
     private final String message;
 

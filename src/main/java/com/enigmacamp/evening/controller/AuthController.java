@@ -1,6 +1,8 @@
 package com.enigmacamp.evening.controller;
 
 import com.enigmacamp.evening.entity.*;
+import com.enigmacamp.evening.exception.NotFoundException;
+import com.enigmacamp.evening.exception.ResourceNotFoundException;
 import com.enigmacamp.evening.exception.TokenRefreshException;
 import com.enigmacamp.evening.repository.RoleRepository;
 import com.enigmacamp.evening.repository.UserRepository;
@@ -57,9 +59,11 @@ public class AuthController {
  
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) {
-    	
-    	User user = userRepository.findByEmail(loginRequest.getEmail())
-    			.orElseThrow(() -> new RuntimeException("Fail! -> Cause: User not found."));
+
+        User user = userRepository
+                .findByEmail(loginRequest.getEmail())
+                .orElseThrow(() -> new ResourceNotFoundException("Fail! -> Cause: Email is wrong."));
+
     	
     	if (user.getActive()) {
     		Authentication authentication = authenticationManager.authenticate(
@@ -98,6 +102,7 @@ public class AuthController {
         user.setName(signUpRequest.getName());
         user.setEmail(signUpRequest.getEmail());
         user.setPassword(encoder.encode(signUpRequest.getPassword()));
+        user.setBirthDate(signUpRequest.getBirthDate());
  
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
@@ -105,20 +110,20 @@ public class AuthController {
         strRoles.forEach(role -> {
           switch(role) {
           case "admin":
-            Role adminRole = roleRepository.findByName(RoleName.ADMIN_ROLE)
-                  .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not found."));
+            Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+                  .orElseThrow(() -> new ResourceNotFoundException("Fail! -> Admin Role not found."));
             roles.add(adminRole);
             
             break;
           case "organizer":
-                Role therapistRole = roleRepository.findByName(RoleName.ORGANIZER_ROLE)
-                  .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not found."));
+                Role therapistRole = roleRepository.findByName(RoleName.ROLE_ORGANIZER)
+                  .orElseThrow(() -> new ResourceNotFoundException("Fail! -> Organizer Role not found."));
                 roles.add(therapistRole);
                 
             break;
           default:
-              Role userRole = roleRepository.findByName(RoleName.USER_ROLE)
-                  .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not found."));
+              Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                  .orElseThrow(() -> new ResourceNotFoundException("Fail! -> user Role not found."));
               roles.add(userRole);              
           }
         });

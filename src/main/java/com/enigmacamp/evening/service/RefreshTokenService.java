@@ -4,6 +4,7 @@ import com.enigmacamp.evening.entity.RefreshToken;
 import com.enigmacamp.evening.exception.TokenRefreshException;
 import com.enigmacamp.evening.repository.RefreshTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -15,7 +16,10 @@ public class RefreshTokenService {
 
 	@Autowired
     private RefreshTokenRepository refreshTokenRepository;
-    
+
+    @Value("${evening.app.jwtExpirationMs}")
+    private int expire;
+
     public Optional<RefreshToken> findByToken(String token) {
         return refreshTokenRepository.findByToken(token);
     }
@@ -26,7 +30,7 @@ public class RefreshTokenService {
     
     public RefreshToken createRefreshToken() {
         RefreshToken refreshToken = new RefreshToken();
-        refreshToken.setExpiryDate(Instant.now().plusMillis(3600000));
+        refreshToken.setExpiryDate(Instant.now().plusMillis(expire));
         refreshToken.setToken(UUID.randomUUID().toString());
         refreshToken.setRefreshCount(0L);
         return refreshToken;

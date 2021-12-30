@@ -75,7 +75,7 @@ public class PageResponse<T> {
 
         @Bean
         public ApplicationRunner initial() {
-            List<RoleName> roleList = Arrays.asList(RoleName.USER_ROLE, RoleName.ORGANIZER_ROLE, RoleName.ADMIN_ROLE);
+            List<RoleName> roleList = Arrays.asList(RoleName.ROLE_ADMIN, RoleName.ROLE_ORGANIZER, RoleName.ROLE_USER);
             return args -> roleList.forEach(i -> createRoleIfNotFound(i));
         }
 

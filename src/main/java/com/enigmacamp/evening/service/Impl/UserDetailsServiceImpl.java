@@ -1,6 +1,7 @@
-package com.enigmacamp.evening.service;
+package com.enigmacamp.evening.service.Impl;
 import com.enigmacamp.evening.entity.User;
 import com.enigmacamp.evening.repository.UserRepository;
+import com.enigmacamp.evening.service.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
