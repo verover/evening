@@ -1,8 +1,10 @@
 package com.enigmacamp.evening.controller;
 
 import com.enigmacamp.evening.dto.EventDTO;
+import com.enigmacamp.evening.entity.EventDetail;
 import com.enigmacamp.evening.payload.EventRequest;
 import com.enigmacamp.evening.entity.Event;
+import com.enigmacamp.evening.service.EventDetailService;
 import com.enigmacamp.evening.service.EventService;
 import com.enigmacamp.evening.util.PageResponse;
 import com.enigmacamp.evening.util.WebResponse;
@@ -21,6 +23,9 @@ public class EventController {
 
     @Autowired
     EventService eventService;
+
+    @Autowired
+    EventDetailService eventDetailService;
 
     @PostMapping
     public Event createEvent(@RequestBody EventRequest eventRequest){
@@ -113,6 +118,11 @@ public class EventController {
     @PutMapping(value = "/{id}")
     public Event udpate(@PathVariable("id") String id,@RequestBody EventRequest eventRequest){
         return eventService.updateById(id,eventRequest);
+    }
+
+    @PutMapping(value = "/eventdetails/update/{id}")
+    public EventDetail updateById(@PathVariable("id") String id,@RequestBody EventDetail eventDetail){
+        return eventDetailService.updateById(id,eventDetail);
     }
 
 }

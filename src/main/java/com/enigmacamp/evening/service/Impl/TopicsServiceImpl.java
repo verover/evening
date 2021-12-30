@@ -49,9 +49,9 @@ public class TopicsServiceImpl implements TopicsService {
 
     public Topics findByOrThrowNotFound(String id) {
         Optional<Topics> topics = this.topicsRepository.findById(id);
-        if (!topics.isPresent()) {
-            throw new NotFoundException("Topics is not found");
+        if (topics.isPresent()) {
+            return topics.get();
         }
-        return topics.get();
+        throw new NotFoundException("Topics is not found");
     }
 }
