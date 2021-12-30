@@ -30,16 +30,10 @@ public class EventController {
     @GetMapping
     public ResponseEntity<WebResponse<PageResponse<Event>>> listWithPage(
             @RequestParam(name = "size", defaultValue = "10") Integer size,
-            @RequestParam(name = "page", defaultValue = "0") Integer page,
-            @RequestParam(name = "name", required = false) String name,
-            @RequestParam(name = "topics", required = false) String topics
-
+            @RequestParam(name = "page", defaultValue = "0") Integer page
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        EventDTO eventDTO = new EventDTO(name,topics);
-
-        Page<Event> events = this.eventService.listWithPage(pageable, eventDTO);
-
+        Page<Event> events = this.eventService.listWithPage(pageable);
         PageResponse<Event> pageResponse = new PageResponse<>(
                 events.getContent(),
                 events.getTotalElements(),
@@ -47,9 +41,7 @@ public class EventController {
                 page,
                 size
         );
-
         WebResponse<PageResponse<Event>> response = new WebResponse<>("Successfully get data Event", pageResponse);
-
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(response);
@@ -60,7 +52,7 @@ public class EventController {
         return eventService.getById(id);
     }
 
-    @DeleteMapping({"/{eventId}"})
+    @DeleteMapping(value = "/{eventId}")
     public ResponseEntity<WebResponse<String>> deleteCustomerById(@PathVariable("eventId") String id) {
         String message = this.eventService.deleteById(id);
         WebResponse<String> webResponse = new WebResponse<>(message, id);
@@ -93,4 +85,34 @@ public class EventController {
                 .status(HttpStatus.OK)
                 .body(response);
     }
+
+    @GetMapping("/search/{name}")
+    public ResponseEntity<WebResponse<PageResponse<Event>>>  getEventByName(
+            @RequestParam(name = "size", defaultValue = "10") Integer size,
+            @RequestParam(name = "page", defaultValue = "0") Integer page,
+            @PathVariable("name") String name
+    ){
+        Pageable  pageable = PageRequest.of(page,size);
+        Page<Event> event = this.eventService.findByName(pageable,"%" + name +"%");
+
+        PageResponse<Event> pageResponse = new PageResponse<>(
+                event.getContent(),
+                event.getTotalElements(),
+                event.getTotalPages(),
+                page,
+                size
+        );
+
+        WebResponse<PageResponse<Event>> response = new WebResponse<>("Successfully get Events by Name", pageResponse);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
+    }
+
+    @PutMapping(value = "/{id}")
+    public Event udpate(@PathVariable("id") String id,@RequestBody EventRequest eventRequest){
+        return eventService.updateById(id,eventRequest);
+    }
+
 }

@@ -13,6 +13,8 @@ public interface EventService {
     List<Event> findAll();
     Event getById(String id);
     String deleteById(String id);
-    Page<Event> listWithPage(Pageable pageable, EventDTO eventDTO);
+    Page<Event> listWithPage(Pageable pageable);
     Page<Event> findByTopics(Pageable pageable,String nameTopics);
+    Page<Event> findByName(Pageable pageable,String nameEvent);
+    Event updateById(String id,EventRequest eventRequest);
 }

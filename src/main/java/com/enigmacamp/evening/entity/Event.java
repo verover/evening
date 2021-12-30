@@ -19,7 +19,7 @@ public class Event {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name="system-uuid",strategy = "uuid")
     @Column(name = "event_id",nullable = false)
-    private String EventId;
+    private String eventId;
 
     private String organizerId;
 

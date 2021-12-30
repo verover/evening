@@ -7,6 +7,6 @@ import java.util.List;
 
 @Data
 public class EventRequest {
-    private String organizerId,name,bannerImage,category,topics;
+    private String eventId,organizerId,name,bannerImage,category,topics;
     private List<EventDetail> eventDetails;
 }
