@@ -6,6 +6,7 @@ import com.enigmacamp.evening.entity.Event;
 import com.enigmacamp.evening.entity.EventDetail;
 import com.enigmacamp.evening.entity.Topics;
 import com.enigmacamp.evening.exception.NotFoundException;
+import com.enigmacamp.evening.repository.EventDetailRepository;
 import com.enigmacamp.evening.repository.EventRepository;
 import com.enigmacamp.evening.service.CategoryService;
 import com.enigmacamp.evening.service.EventDetailService;
@@ -36,6 +37,9 @@ public class EventServiceImpl implements EventService {
     @Autowired
     EventDetailService eventDetailService;
 
+    @Autowired
+    EventDetailRepository eventDetailRepository;
+
     @Override
     public Event save(EventRequest eventRequest) {
         Category category = categoryService.getById(eventRequest.getCategory());
@@ -47,11 +51,11 @@ public class EventServiceImpl implements EventService {
         event.setCategory(category);
         event.setTopics(topics);
         event.setEventDetails(eventRequest.getEventDetails());
-        Event saveEvent = eventRepository.save(event);
-        for(EventDetail eventDetail : saveEvent.getEventDetails()){
-            eventDetail.setEvent(saveEvent);
-            eventDetailService.save(eventDetail);
+        for(EventDetail eventDetail : event.getEventDetails()){
+            eventDetail.setEvent(event);
+            eventDetailRepository.save(eventDetail);
         }
+        Event saveEvent = eventRepository.save(event);
         return saveEvent;
     }
 
@@ -84,10 +88,10 @@ public class EventServiceImpl implements EventService {
 
     public Event findByOrThrowNotFound(String id) {
         Optional<Event> event = this.eventRepository.findById(id);
-        if (!event.isPresent()) {
-            throw new NotFoundException("Event is not found");
+        if (event.isPresent()) {
+            return event.get();
         }
-        return event.get();
+        throw new NotFoundException("Event is not found");
     }
 
     public Page<Event> findByTopics(Pageable pageable,String nameTopics){
@@ -116,7 +120,7 @@ public class EventServiceImpl implements EventService {
         if(eventRequest.getEventDetails() != null) {
             for (EventDetail eventDetail : eventRequest.getEventDetails()) {
                 eventDetail.setEvent(saveEvent);
-                eventDetailService.save(eventDetail);
+                eventDetailRepository.save(eventDetail);
                 saveEvent.getEventDetails().add(eventDetail);
             }
         }

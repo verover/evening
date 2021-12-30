@@ -9,7 +9,6 @@ import com.enigmacamp.evening.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +22,7 @@ public class EventDetailServiceImpl implements EventDetailService{
     EventService  eventService;
 
     @Override
-    public EventDetail save(EventDetail eventDetail) {
+    public EventDetail create(EventDetail eventDetail) {
         Event event = eventService.getById(eventDetail.getEvent().getEventId());
         eventDetail.setEvent(event);
         event.getEventDetails().add(eventDetail);
@@ -49,10 +48,15 @@ public class EventDetailServiceImpl implements EventDetailService{
 
     public EventDetail findByOrThrowNotFound(String id) {
         Optional<EventDetail> eventDetail = this.eventDetailRepository.findById(id);
-        if (!eventDetail.isPresent()) {
-            throw new NotFoundException("EventDetail is not found");
+        if (eventDetail.isPresent()) {
+            return eventDetail.get();
         }
-        return eventDetail.get();
+        throw new NotFoundException("EventDetail is not found");
+    }
+
+    public List<EventDetail> findByEventId(String id){
+        Event event = eventService.getById(id);
+        return event.getEventDetails();
     }
 
 }

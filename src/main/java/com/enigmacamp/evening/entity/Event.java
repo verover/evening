@@ -1,5 +1,6 @@
 package com.enigmacamp.evening.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
@@ -42,6 +43,7 @@ public class Event {
     private Date createdAt;
 
     @LastModifiedDate
+    @JsonIgnore
     private Date updatedAt;
 
     @PrePersist
@@ -55,6 +57,7 @@ public class Event {
         this.updatedAt = new Date();
     }
 
+    @JsonIgnore
     private Boolean isDeleted = Boolean.FALSE;
 
     @OneToMany(targetEntity = EventDetail.class,fetch = FetchType.EAGER)
