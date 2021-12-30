@@ -9,4 +9,5 @@ public interface EventDetailService {
     List<EventDetail> findAll();
     EventDetail getById(String id);
     EventDetail updateById(String id,EventDetail eventDetail);
+    List<EventDetail> findByEventId(String id);
 }

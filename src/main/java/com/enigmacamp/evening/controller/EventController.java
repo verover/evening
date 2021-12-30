@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping(value = "/events")
@@ -123,6 +125,11 @@ public class EventController {
     @PutMapping(value = "/eventdetails/update/{id}")
     public EventDetail updateById(@PathVariable("id") String id,@RequestBody EventDetail eventDetail){
         return eventDetailService.updateById(id,eventDetail);
+    }
+
+    @GetMapping(value = "/eventdetails/{id}")
+    public List<EventDetail> findByEventId(@PathVariable("id")String id){
+        return eventDetailService.findByEventId(id);
     }
 
 }

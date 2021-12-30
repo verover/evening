@@ -54,4 +54,9 @@ public class EventDetailServiceImpl implements EventDetailService{
         throw new NotFoundException("EventDetail is not found");
     }
 
+    public List<EventDetail> findByEventId(String id){
+        Event event = eventService.getById(id);
+        return event.getEventDetails();
+    }
+
 }
