@@ -13,14 +13,13 @@ public interface EventRepository extends JpaRepository<Event,String> {
     @Query("SELECT v from Event v where isDeleted = false")
     Page<Event> findAll(Pageable pageable);
 
-    @Query("SELECT v FROM Event v WHERE LOWER(v.topics.name) LIKE LOWER(:name)")
+    @Query("SELECT v FROM Event v WHERE isDeleted = false and LOWER(v.topics.name) LIKE LOWER(:name)")
     Page<Event> findByNameTopic(@PathParam("name") String name,Pageable pageable);
 
-    @Query("SELECT v FROM Event v WHERE LOWER(v.name) LIKE LOWER(:name)")
+    @Query("SELECT v FROM Event v WHERE isDeleted = false and LOWER(v.name) LIKE LOWER(:name)")
     Page<Event> findByName(@PathParam("name") String name,Pageable pageable);
 
 //    @Query("SELECT v FROM Event v WHERE Event.EventDetail.date between :from and :until")
 //    Page<Event> findBetweenDate(@PathParam("from") String from, @PathParam("until") String until, Pageable pageable);
-
 }
 

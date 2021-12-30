@@ -9,7 +9,6 @@ import com.enigmacamp.evening.exception.NotFoundException;
 import com.enigmacamp.evening.repository.EventDetailRepository;
 import com.enigmacamp.evening.repository.EventRepository;
 import com.enigmacamp.evening.service.CategoryService;
-import com.enigmacamp.evening.service.EventDetailService;
 import com.enigmacamp.evening.service.EventService;
 import com.enigmacamp.evening.service.TopicsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@Service("EventService")
+@Service
 @Transactional
 public class EventServiceImpl implements EventService {
 
