@@ -1,6 +1,7 @@
 package com.enigmacamp.evening.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -28,4 +29,7 @@ public class EventDetail {
 
     @Column(nullable = false)
     private String location;
+
+//    @JsonIgnore
+    private Boolean isDeleted = Boolean.FALSE;
 }

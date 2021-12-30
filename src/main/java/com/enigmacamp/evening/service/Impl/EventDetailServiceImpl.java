@@ -7,8 +7,11 @@ import com.enigmacamp.evening.repository.EventDetailRepository;
 import com.enigmacamp.evening.service.EventDetailService;
 import com.enigmacamp.evening.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,11 +31,6 @@ public class EventDetailServiceImpl implements EventDetailService{
         event.getEventDetails().add(eventDetail);
         EventDetail save = eventDetailRepository.save(eventDetail);
         return save;
-    }
-
-    @Override
-    public List<EventDetail> findAll() {
-        return eventDetailRepository.findAll();
     }
 
     @Override
@@ -56,7 +54,24 @@ public class EventDetailServiceImpl implements EventDetailService{
 
     public List<EventDetail> findByEventId(String id){
         Event event = eventService.getById(id);
-        return event.getEventDetails();
+        List<EventDetail> eventDetails = event.getEventDetails();
+        List<EventDetail> eventDetailList = new ArrayList<>();
+        for (EventDetail eventDetail: eventDetails) {
+            if (!eventDetail.getIsDeleted())
+            eventDetailList.add(eventDetail);
+        }
+            return  eventDetailList;
+    }
+
+    @Override
+    public String deleteById(String id) {
+        EventDetail eventDetail = this.findByOrThrowNotFound(id);
+        if(eventDetail.getIsDeleted()){
+            throw new NotFoundException("Event Not Found");
+        }
+        eventDetail.setIsDeleted(true);
+        eventDetailRepository.save(eventDetail);
+        return "Event has been removed";
     }
 
 }
