@@ -30,6 +30,6 @@ public class EventDetail {
     @Column(nullable = false)
     private String location;
 
-//    @JsonIgnore
+    @JsonIgnore
     private Boolean isDeleted = Boolean.FALSE;
 }

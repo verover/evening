@@ -93,6 +93,34 @@ public class EventController {
                 .body(response);
     }
 
+
+    @GetMapping("/search/date/{from}/{until}")
+    public ResponseEntity<WebResponse<PageResponse<Event>>>  findBetweenDate(
+            @RequestParam(name = "size", defaultValue = "10") Integer size,
+            @RequestParam(name = "page", defaultValue = "0") Integer page,
+            @PathVariable("from") String from,
+            @PathVariable("until") String until
+    ){
+        Pageable  pageable = PageRequest.of(page,size);
+        Page<Event> event = this.eventService.findBetweenDate(pageable,from,until);
+
+        PageResponse<Event> pageResponse = new PageResponse<>(
+                event.getContent(),
+                event.getTotalElements(),
+                event.getTotalPages(),
+                page,
+                size
+        );
+
+        WebResponse<PageResponse<Event>> response = new WebResponse<>("Successfully get data Event by Topics", pageResponse);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
+    }
+
+
+
     @GetMapping("/search/{name}")
     public ResponseEntity<WebResponse<PageResponse<Event>>>  getEventByName(
             @RequestParam(name = "size", defaultValue = "10") Integer size,
