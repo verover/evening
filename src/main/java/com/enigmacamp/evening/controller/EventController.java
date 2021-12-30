@@ -138,4 +138,14 @@ public class EventController {
         return eventDetailService.getById(id);
     }
 
+    @DeleteMapping(value = "eventdetail/{eventDetailId}")
+    public ResponseEntity<WebResponse<String>> deleteEventDetailById(@PathVariable("eventDetailId") String id) {
+        String message = this.eventDetailService.deleteById(id);
+        WebResponse<String> webResponse = new WebResponse<>(message, id);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(webResponse);
+    }
+
 }
