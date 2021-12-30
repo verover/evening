@@ -13,10 +13,12 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Data
 @NoArgsConstructor @AllArgsConstructor @Setter @Getter
 @Entity
 @Table(name = "trx_ticket_detail")
@@ -26,10 +28,12 @@ public class TicketDetail {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     String id;
     
-    @ManyToOne(targetEntity = Ticket.class, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = Ticket.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "ticket_id")
     @JsonBackReference
     Ticket ticket;
 
-    String eventDetailId;
+    @ManyToOne(targetEntity = EventDetail.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_id")
+    EventDetail eventDetail;
 }

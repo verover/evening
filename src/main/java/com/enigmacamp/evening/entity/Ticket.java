@@ -8,11 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonSetter;
@@ -33,8 +36,9 @@ public class Ticket {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
-    @Column(name="event_id", nullable = false)
-    private String eventId;
+    @ManyToOne(targetEntity = Event.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_id")
+    private Event event;
     
     @Column(nullable = false)
     private String title;
@@ -80,5 +84,15 @@ public class Ticket {
     @PreUpdate
     private void updatedDate(){
         this.updatedAt = new Date();
+    }
+
+    public Ticket(String title, String description, Integer price, Integer stock, Integer minAmmount, Integer maxAmmount, List<TicketDetail> ticketDetails) {
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.stock = stock;
+        this.minAmmount = minAmmount;
+        this.maxAmmount = maxAmmount;
+        this.ticketDetails = ticketDetails;
     }
 }
