@@ -1,8 +1,8 @@
 package com.enigmacamp.evening.service;
 
-import com.enigmacamp.evening.dto.EventRequest;
+import com.enigmacamp.evening.dto.EventDTO;
+import com.enigmacamp.evening.payload.EventRequest;
 import com.enigmacamp.evening.entity.Event;
-import com.enigmacamp.evening.repository.EventDetailRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,5 +12,9 @@ public interface EventService {
     Event save(EventRequest eventRequest);
     List<Event> findAll();
     Event getById(String id);
-    void deleteById(String id);
+    String deleteById(String id);
+    Page<Event> listWithPage(Pageable pageable);
+    Page<Event> findByTopics(Pageable pageable,String nameTopics);
+    Page<Event> findByName(Pageable pageable,String nameEvent);
+    Event updateById(String id,EventRequest eventRequest);
 }

@@ -3,6 +3,7 @@ package com.enigmacamp.evening.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -17,7 +18,7 @@ public class Event {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name="system-uuid",strategy = "uuid")
     @Column(name = "event_id",nullable = false)
-    private String EventId;
+    private String eventId;
 
     private String organizerId;
 
