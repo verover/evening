@@ -1,6 +1,5 @@
 package com.enigmacamp.evening.controller;
 
-import com.enigmacamp.evening.entity.Category;
 import com.enigmacamp.evening.entity.Topics;
 import com.enigmacamp.evening.service.TopicsService;
 import com.enigmacamp.evening.util.PageResponse;
@@ -17,7 +16,6 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/topics")

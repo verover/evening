@@ -35,9 +35,6 @@ public class EventServiceImpl implements EventService {
     TopicsService topicsService;
 
     @Autowired
-    EventDetailService eventDetailService;
-
-    @Autowired
     EventDetailRepository eventDetailRepository;
 
     @Override
@@ -57,12 +54,6 @@ public class EventServiceImpl implements EventService {
         }
         Event saveEvent = eventRepository.save(event);
         return saveEvent;
-    }
-
-
-    @Override
-    public List<Event> findAll() {
-        return eventRepository.findAll();
     }
 
     @Override

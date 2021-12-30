@@ -27,11 +27,5 @@ public class Topics {
     @Size(min = 5, max = 30)
     @Column(nullable = false ,unique = true)
     private String name;
-//
-//    @JsonIgnore
-//    @OneToMany(targetEntity = Event.class, fetch = FetchType.EAGER)
-//    @JsonManagedReference
-//    private Set<Event> events;
-
 
 }

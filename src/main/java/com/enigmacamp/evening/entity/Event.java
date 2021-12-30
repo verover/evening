@@ -59,7 +59,7 @@ public class Event {
         this.updatedAt = new Date();
     }
 
-    @JsonIgnore
+//    @JsonIgnore
     private Boolean isDeleted = Boolean.FALSE;
 
     @OneToMany(targetEntity = EventDetail.class,fetch = FetchType.EAGER)
