@@ -19,5 +19,6 @@ public interface EventRepository extends JpaRepository<Event,String> {
 
     @Query("SELECT v FROM Event v WHERE LOWER(v.name) LIKE LOWER(:name)")
     Page<Event> findByName(@PathParam("name") String name,Pageable pageable);
+
 }
 

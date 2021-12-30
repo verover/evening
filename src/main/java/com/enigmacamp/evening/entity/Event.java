@@ -13,7 +13,6 @@ import java.util.*;
 @Data
 @Entity
 @Table(name="mst_event")
-//@Where(clause="isDeleted=0")
 public class Event {
     @Id
     @GeneratedValue(generator = "system-uuid")
