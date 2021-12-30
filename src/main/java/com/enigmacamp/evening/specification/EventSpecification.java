@@ -2,12 +2,10 @@ package com.enigmacamp.evening.specification;
 
 import com.enigmacamp.evening.dto.EventDTO;
 import com.enigmacamp.evening.entity.Event;
+import com.enigmacamp.evening.entity.Topics;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +20,7 @@ public class EventSpecification {
                     Predicate namePredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("name")),"%" + eventDTO.getSearchByName().toLowerCase() + "%");
                     predicates.add(namePredicate);
                 }
+
                 Predicate[] arrayPredicates = predicates.toArray(new Predicate[predicates.size()]);
                 return criteriaBuilder.and(arrayPredicates);
             }

@@ -3,6 +3,7 @@ package com.enigmacamp.evening.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -12,6 +13,7 @@ import java.util.*;
 @Data
 @Entity
 @Table(name="mst_event")
+//@Where(clause="isDeleted=0")
 public class Event {
     @Id
     @GeneratedValue(generator = "system-uuid")

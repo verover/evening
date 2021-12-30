@@ -1,4 +1,4 @@
-package com.enigmacamp.evening.dto;
+package com.enigmacamp.evening.payload;
 
 import com.enigmacamp.evening.entity.EventDetail;
 import lombok.Data;

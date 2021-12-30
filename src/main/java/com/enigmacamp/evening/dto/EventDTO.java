@@ -7,9 +7,12 @@ import java.util.Date;
 
 public class EventDTO {
     private String searchByName;
+    private String searchByTopics;
 
-    public EventDTO(String searchByName) {
+
+    public EventDTO(String searchByName, String searchByTopics) {
         this.searchByName = searchByName;
+        this.searchByTopics = searchByTopics;
     }
 
     public String getSearchByName() {
@@ -18,5 +21,13 @@ public class EventDTO {
 
     public void setSearchByName(String searchByName) {
         this.searchByName = searchByName;
+    }
+
+    public String getSearchByTopics() {
+        return searchByTopics;
+    }
+
+    public void setSearchByTopics(String searchByTopics) {
+        this.searchByTopics = searchByTopics;
     }
 }

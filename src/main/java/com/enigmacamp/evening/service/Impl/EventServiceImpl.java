@@ -1,15 +1,13 @@
 package com.enigmacamp.evening.service.Impl;
 
 import com.enigmacamp.evening.dto.EventDTO;
-import com.enigmacamp.evening.dto.EventRequest;
+import com.enigmacamp.evening.payload.EventRequest;
 import com.enigmacamp.evening.entity.Category;
 import com.enigmacamp.evening.entity.Event;
 import com.enigmacamp.evening.entity.EventDetail;
 import com.enigmacamp.evening.entity.Topics;
 import com.enigmacamp.evening.exception.NotFoundException;
-import com.enigmacamp.evening.repository.CategoryRepository;
 import com.enigmacamp.evening.repository.EventRepository;
-import com.enigmacamp.evening.repository.TopicsRepository;
 import com.enigmacamp.evening.service.CategoryService;
 import com.enigmacamp.evening.service.EventDetailService;
 import com.enigmacamp.evening.service.EventService;
@@ -79,7 +77,7 @@ public class EventServiceImpl implements EventService {
         }
         event.setIsDeleted(true);
         eventRepository.save(event);
-        return "Customer has been removed";
+        return "Event has been removed";
 
     }
 
@@ -95,5 +93,9 @@ public class EventServiceImpl implements EventService {
             throw new NotFoundException("Event is not found");
         }
         return event.get();
+    }
+
+    public Page<Event> findByTopics(Pageable pageable,String nameTopics){
+        return eventRepository.findByNameTopic(nameTopics,pageable);
     }
 }
