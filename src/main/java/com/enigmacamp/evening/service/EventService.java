@@ -16,5 +16,6 @@ public interface EventService {
     Page<Event> listWithPage(Pageable pageable);
     Page<Event> findByTopics(Pageable pageable,String nameTopics);
     Page<Event> findByName(Pageable pageable,String nameEvent);
+    Page<Event> findBetweenDate(Pageable pageable,String from, String until);
     Event updateById(String id,EventRequest eventRequest);
 }

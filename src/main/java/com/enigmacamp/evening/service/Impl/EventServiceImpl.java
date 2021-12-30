@@ -21,7 +21,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Service("EventService")
 @Transactional
 public class EventServiceImpl implements EventService {
 
@@ -94,6 +94,7 @@ public class EventServiceImpl implements EventService {
         throw new NotFoundException("Event is not found");
     }
 
+    @Override
     public Page<Event> findByTopics(Pageable pageable,String nameTopics){
         return eventRepository.findByNameTopic(nameTopics,pageable);
     }
@@ -101,6 +102,12 @@ public class EventServiceImpl implements EventService {
     @Override
     public Page<Event> findByName(Pageable pageable, String nameEvent) {
         return eventRepository.findByName(nameEvent,pageable);
+    }
+
+    @Override
+    public Page<Event> findBetweenDate(Pageable pageable,String from, String until) {
+//        return eventRepository.findBetweenDate(from,until,pageable);
+        return null;
     }
 
     @Override
@@ -126,4 +133,6 @@ public class EventServiceImpl implements EventService {
         }
         return saveEvent;
     }
+
+
 }
