@@ -23,15 +23,6 @@ public class EventDetailServiceImpl implements EventDetailService{
     EventService  eventService;
 
     @Override
-    public EventDetail create(EventDetail eventDetail) {
-        Event event = eventService.getById(eventDetail.getEvent().getEventId());
-        eventDetail.setEvent(event);
-        event.getEventDetails().add(eventDetail);
-        EventDetail save = eventDetailRepository.save(eventDetail);
-        return save;
-    }
-
-    @Override
     public EventDetail getById(String id) {
         return this.findByOrThrowNotFound(id);
     }

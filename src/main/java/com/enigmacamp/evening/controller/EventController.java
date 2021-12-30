@@ -1,9 +1,8 @@
 package com.enigmacamp.evening.controller;
 
-import com.enigmacamp.evening.dto.EventDTO;
+import com.enigmacamp.evening.entity.Event;
 import com.enigmacamp.evening.entity.EventDetail;
 import com.enigmacamp.evening.payload.EventRequest;
-import com.enigmacamp.evening.entity.Event;
 import com.enigmacamp.evening.service.EventDetailService;
 import com.enigmacamp.evening.service.EventService;
 import com.enigmacamp.evening.util.PageResponse;
@@ -122,7 +121,7 @@ public class EventController {
 
 
     @GetMapping("/search/{name}")
-    public ResponseEntity<WebResponse<PageResponse<Event>>>  getEventByName(
+    public ResponseEntity<WebResponse<PageResponse<Event>>>  findEventByName(
             @RequestParam(name = "size", defaultValue = "10") Integer size,
             @RequestParam(name = "page", defaultValue = "0") Integer page,
             @PathVariable("name") String name

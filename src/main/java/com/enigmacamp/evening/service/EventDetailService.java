@@ -5,10 +5,8 @@ import com.enigmacamp.evening.entity.EventDetail;
 import java.util.List;
 
 public interface EventDetailService {
-    EventDetail create(EventDetail eventDetail);
     EventDetail getById(String id);
     EventDetail updateById(String id,EventDetail eventDetail);
     List<EventDetail> findByEventId(String id);
     String deleteById(String id);
-
 }
