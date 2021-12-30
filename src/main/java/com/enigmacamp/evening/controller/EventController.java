@@ -35,7 +35,7 @@ public class EventController {
     }
 
     @GetMapping
-    public ResponseEntity<WebResponse<PageResponse<Event>>> listWithPage(
+    public ResponseEntity<WebResponse<PageResponse<Event>>> listEventWithPage(
             @RequestParam(name = "size", defaultValue = "10") Integer size,
             @RequestParam(name = "page", defaultValue = "0") Integer page
     ) {
@@ -60,7 +60,7 @@ public class EventController {
     }
 
     @DeleteMapping(value = "/{eventId}")
-    public ResponseEntity<WebResponse<String>> deleteCustomerById(@PathVariable("eventId") String id) {
+    public ResponseEntity<WebResponse<String>> deleteEventById(@PathVariable("eventId") String id) {
         String message = this.eventService.deleteById(id);
         WebResponse<String> webResponse = new WebResponse<>(message, id);
 
@@ -101,7 +101,6 @@ public class EventController {
     ){
         Pageable  pageable = PageRequest.of(page,size);
         Page<Event> event = this.eventService.findByName(pageable,"%" + name +"%");
-
         PageResponse<Event> pageResponse = new PageResponse<>(
                 event.getContent(),
                 event.getTotalElements(),
@@ -109,27 +108,34 @@ public class EventController {
                 page,
                 size
         );
-
         WebResponse<PageResponse<Event>> response = new WebResponse<>("Successfully get Events by Name", pageResponse);
-
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(response);
     }
 
     @PutMapping(value = "/{id}")
-    public Event udpate(@PathVariable("id") String id,@RequestBody EventRequest eventRequest){
+    public Event udpateEventById(@PathVariable("id") String id,@RequestBody EventRequest eventRequest){
         return eventService.updateById(id,eventRequest);
     }
 
+
+    //EventDetails
+    //add more eventDetail at the update event by id
+
     @PutMapping(value = "/eventdetails/update/{id}")
-    public EventDetail updateById(@PathVariable("id") String id,@RequestBody EventDetail eventDetail){
+    public EventDetail updateEventDetailById(@PathVariable("id") String id,@RequestBody EventDetail eventDetail){
         return eventDetailService.updateById(id,eventDetail);
     }
 
     @GetMapping(value = "/eventdetails/{id}")
-    public List<EventDetail> findByEventId(@PathVariable("id")String id){
+    public List<EventDetail> findEventDetailsByEventId(@PathVariable("id")String id){
         return eventDetailService.findByEventId(id);
+    }
+
+    @GetMapping(value = "/eventdetail/{id}")
+    public EventDetail findEventDetailById(@PathVariable("id")String id){
+        return eventDetailService.getById(id);
     }
 
 }
