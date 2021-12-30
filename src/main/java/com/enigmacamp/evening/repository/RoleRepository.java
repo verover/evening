@@ -1,14 +1,13 @@
 package com.enigmacamp.evening.repository;
 
 import com.enigmacamp.evening.entity.Role;
-import com.enigmacamp.evening.entity.UserRole;
+import com.enigmacamp.evening.entity.RoleName;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-public interface RoleRepository extends JpaRepository<Role, Integer> {
-
-    Optional<Role> findByRole(UserRole role);
-
-    Boolean existsByRole(UserRole role);
+@Repository
+public interface RoleRepository extends JpaRepository<Role, Long> {
+    Optional<Role> findByName(RoleName roleName);
 }

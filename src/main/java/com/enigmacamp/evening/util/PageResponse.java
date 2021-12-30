@@ -1,6 +1,16 @@
 package com.enigmacamp.evening.util;
 
+import com.enigmacamp.evening.entity.Role;
+import com.enigmacamp.evening.entity.RoleName;
+import com.enigmacamp.evening.repository.RoleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class PageResponse<T> {
     List<T> data;
@@ -55,5 +65,28 @@ public class PageResponse<T> {
 
     public void setSize(Integer size) {
         this.size = size;
+    }
+
+    @Component
+    public static class InitialDataLoader {
+
+        @Autowired
+        private RoleRepository roleRepository;
+
+        @Bean
+        public ApplicationRunner initial() {
+            List<RoleName> roleList = Arrays.asList(RoleName.USER_ROLE, RoleName.ORGANIZER_ROLE, RoleName.ADMIN_ROLE);
+            return args -> roleList.forEach(i -> createRoleIfNotFound(i));
+        }
+
+        private Optional<Role> createRoleIfNotFound(RoleName roleName) {
+            Optional<Role> role = roleRepository.findByName(roleName);
+                if (!role.isPresent()) {
+                    Role newRole = new Role();
+                    newRole.setName(roleName);
+                    newRole = roleRepository.save(newRole);
+                }
+            return role;
+        }
     }
 }

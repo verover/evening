@@ -1,27 +1,23 @@
 package com.enigmacamp.evening.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
+@Data
+@Entity
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
-@Table(name = "role")
+@Table(name = "roles")
 public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Enumerated(EnumType.STRING)
-    private UserRole role;
-
-    public Role(UserRole role) {
-        this.role = role;
-    }
-
+    @Column(length = 60)
+    private RoleName name;
 }

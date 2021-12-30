@@ -1,60 +1,58 @@
 package com.enigmacamp.evening.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
+@Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
-@Table(name = "mst_user")
+@Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = { "email" }) })
 public class User {
 
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @Column
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(strategy = "uuid", name = "uuid")
     private String id;
 
-    @Column(name = "username", nullable = false)
-    private String username;
+    @Column
+    @NotBlank(message = "User email cannot be null")
+    private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column
+    @NotNull(message = "Password cannot be null")
     private String password;
 
-    @CreatedDate
-    private Date createdAt;
+    @Column
+    @NotBlank(message = "Name can not be blank")
+    private String name;
 
-    @LastModifiedDate
-    private Date updatedAt;
+    @Column(nullable = false)
+    private Boolean active;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "user_role",
+    @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles;
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
-    @PrePersist
-    public void createdDate() {
-        if (createdAt == null) createdAt = new Date();
-        if (updatedAt == null) updatedAt = new Date();
+    public void activate() {
+        this.active = true;
     }
 
-    @PreUpdate
-    public void updatedDate() {
-        updatedAt = new Date();
+    public void deactivate() {
+        this.active = false;
     }
-
-
 }
