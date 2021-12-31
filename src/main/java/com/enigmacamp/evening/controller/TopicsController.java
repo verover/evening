@@ -3,7 +3,7 @@ package com.enigmacamp.evening.controller;
 import com.enigmacamp.evening.entity.Topics;
 import com.enigmacamp.evening.service.TopicsService;
 import com.enigmacamp.evening.util.PageResponse;
-import com.enigmacamp.evening.util.RequestResponse;
+import com.enigmacamp.evening.payload.response.EventResponse;
 import com.enigmacamp.evening.util.WebResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,8 +25,8 @@ public class TopicsController {
     TopicsService topicsService;
 
     @PostMapping
-    public ResponseEntity<RequestResponse<Topics>> createTopics(@Valid @RequestBody Topics topics, Errors errors){
-        RequestResponse<Topics> response = new RequestResponse<>();
+    public ResponseEntity<EventResponse<Topics>> createTopics(@Valid @RequestBody Topics topics, Errors errors){
+        EventResponse<Topics> response = new EventResponse<>();
         if(errors.hasErrors()){
             for (ObjectError err : errors.getAllErrors()) {
                 response.getMessages().add(err.getDefaultMessage());
@@ -63,8 +63,8 @@ public class TopicsController {
     }
 
     @PutMapping(value = "/{topicsId}")
-    public ResponseEntity<RequestResponse<Topics>> updateTopics(@PathVariable("topicsId") String id,@Valid @RequestBody Topics topics, Errors errors){
-        RequestResponse<Topics> response = new RequestResponse<>();
+    public ResponseEntity<EventResponse<Topics>> updateTopics(@PathVariable("topicsId") String id, @Valid @RequestBody Topics topics, Errors errors){
+        EventResponse<Topics> response = new EventResponse<>();
         if(errors.hasErrors()){
             for (ObjectError err : errors.getAllErrors()) {
                 response.getMessages().add(err.getDefaultMessage());

@@ -1,4 +1,4 @@
-package com.enigmacamp.evening.response;
+package com.enigmacamp.evening.payload.response;
 
 
 public class FileResponse {

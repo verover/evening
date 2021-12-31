@@ -1,12 +1,11 @@
 package com.enigmacamp.evening.service.Impl;
 
-import com.enigmacamp.evening.payload.EventRequest;
+import com.enigmacamp.evening.payload.request.EventRequest;
 import com.enigmacamp.evening.entity.Category;
 import com.enigmacamp.evening.entity.Event;
 import com.enigmacamp.evening.entity.EventDetail;
 import com.enigmacamp.evening.entity.Topics;
 import com.enigmacamp.evening.exception.NotFoundException;
-import com.enigmacamp.evening.repository.EventDetailRepository;
 import com.enigmacamp.evening.repository.EventRepository;
 import com.enigmacamp.evening.service.CategoryService;
 import com.enigmacamp.evening.service.EventDetailService;
@@ -18,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
 
 @Service

@@ -1,7 +1,7 @@
 package com.enigmacamp.evening.service;
 
 import com.enigmacamp.evening.entity.Event;
-import com.enigmacamp.evening.payload.EventRequest;
+import com.enigmacamp.evening.payload.request.EventRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -3,7 +3,7 @@ package com.enigmacamp.evening.controller;
 import com.enigmacamp.evening.entity.Category;
 import com.enigmacamp.evening.service.CategoryService;
 import com.enigmacamp.evening.util.PageResponse;
-import com.enigmacamp.evening.util.RequestResponse;
+import com.enigmacamp.evening.payload.response.EventResponse;
 import com.enigmacamp.evening.util.WebResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,8 +25,8 @@ public class CategoryController {
     CategoryService categoryService;
 
     @PostMapping
-    public ResponseEntity<RequestResponse<Category>> create(@Valid @RequestBody Category category, Errors errors){
-        RequestResponse<Category> response = new RequestResponse<>();
+    public ResponseEntity<EventResponse<Category>> create(@Valid @RequestBody Category category, Errors errors){
+        EventResponse<Category> response = new EventResponse<>();
         if(errors.hasErrors()){
             for (ObjectError err : errors.getAllErrors()) {
                 response.getMessages().add(err.getDefaultMessage());
@@ -71,8 +71,8 @@ public class CategoryController {
     }
 
     @PutMapping(value = "/{categoryId}")
-    public  ResponseEntity<RequestResponse<Category>>  updateById(@PathVariable("categoryId") String id,@Valid @RequestBody Category category,Errors errors){
-        RequestResponse<Category> response = new RequestResponse<>();
+    public  ResponseEntity<EventResponse<Category>>  updateById(@PathVariable("categoryId") String id, @Valid @RequestBody Category category, Errors errors){
+        EventResponse<Category> response = new EventResponse<>();
         if(errors.hasErrors()){
             for (ObjectError err : errors.getAllErrors()) {
                 response.getMessages().add(err.getDefaultMessage());

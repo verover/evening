@@ -1,6 +1,6 @@
 package com.enigmacamp.evening.controller;
 
-import com.enigmacamp.evening.response.FileResponse;
+import com.enigmacamp.evening.payload.response.FileResponse;
 import com.enigmacamp.evening.entity.File;
 import com.enigmacamp.evening.service.FileService;
 import com.enigmacamp.evening.util.WebResponse;

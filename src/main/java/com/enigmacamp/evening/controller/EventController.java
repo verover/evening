@@ -1,13 +1,12 @@
 package com.enigmacamp.evening.controller;
 
-import com.enigmacamp.evening.entity.Category;
 import com.enigmacamp.evening.entity.Event;
 import com.enigmacamp.evening.entity.EventDetail;
-import com.enigmacamp.evening.payload.EventRequest;
+import com.enigmacamp.evening.payload.request.EventRequest;
 import com.enigmacamp.evening.service.EventDetailService;
 import com.enigmacamp.evening.service.EventService;
 import com.enigmacamp.evening.util.PageResponse;
-import com.enigmacamp.evening.util.RequestResponse;
+import com.enigmacamp.evening.payload.response.EventResponse;
 import com.enigmacamp.evening.util.WebResponse;
 import org.hibernate.validator.internal.engine.ConstraintViolationImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +37,9 @@ public class EventController {
     EventDetailService eventDetailService;
 
     @PostMapping
-    public ResponseEntity<RequestResponse<Event>> createEvent(@Valid @RequestBody EventRequest eventRequest){
+    public ResponseEntity<EventResponse<Event>> createEvent(@Valid @RequestBody EventRequest eventRequest){
 
-            RequestResponse<Event> response = new RequestResponse<>();
+            EventResponse<Event> response = new EventResponse<>();
             response.getMessages().add("Successfuly Created Event");
             response.setStatus(true);
             response.setData(eventService.save(eventRequest));
@@ -49,9 +48,9 @@ public class EventController {
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    ResponseEntity<RequestResponse<?>> handleConstraintValidationException(ConstraintViolationException e){
+    ResponseEntity<EventResponse<?>> handleConstraintValidationException(ConstraintViolationException e){
         Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
-        RequestResponse<?> response = new RequestResponse<>();
+        EventResponse<?> response = new EventResponse<>();
         ConstraintViolationImpl violation = (ConstraintViolationImpl) violations.iterator().next();
         response.setStatus(false);
         String sizeValidation = "{javax.validation.constraints.Size.message}";
