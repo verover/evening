@@ -19,9 +19,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Data
-@NoArgsConstructor @AllArgsConstructor @Setter @Getter
 @Entity
 @Table(name = "trx_ticket_detail")
+@NoArgsConstructor
+@AllArgsConstructor
 public class TicketDetail {
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -34,6 +35,12 @@ public class TicketDetail {
     Ticket ticket;
 
     @ManyToOne(targetEntity = EventDetail.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "event_id")
+    @JoinColumn(name = "event_detail_id")
+    @JsonBackReference
     EventDetail eventDetail;
+
+    public TicketDetail(Ticket ticket, EventDetail eventDetail) {
+        this.ticket = ticket;
+        this.eventDetail = eventDetail;
+    }
 }

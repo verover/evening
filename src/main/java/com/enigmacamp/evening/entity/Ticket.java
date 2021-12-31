@@ -2,18 +2,9 @@ package com.enigmacamp.evening.entity;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,12 +15,14 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "mst_ticket")
-@Data @NoArgsConstructor
+@Setter @Getter @NoArgsConstructor @AllArgsConstructor
 public class Ticket {
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -59,7 +52,7 @@ public class Ticket {
 
     @OneToMany(targetEntity = TicketDetail.class, fetch = FetchType.EAGER)
     @JsonManagedReference
-    private List<TicketDetail> ticketDetails;
+    private Set<TicketDetail> ticketDetail;
 
     @CreatedDate
     @JsonIgnore
@@ -86,13 +79,15 @@ public class Ticket {
         this.updatedAt = new Date();
     }
 
-    public Ticket(String title, String description, Integer price, Integer stock, Integer minAmmount, Integer maxAmmount, List<TicketDetail> ticketDetails) {
+    public Ticket(Event event, String title, String description, Integer price, Integer stock, Integer minAmmount,
+                  Integer maxAmmount) {
+        this.event = event;
         this.title = title;
         this.description = description;
         this.price = price;
         this.stock = stock;
         this.minAmmount = minAmmount;
         this.maxAmmount = maxAmmount;
-        this.ticketDetails = ticketDetails;
     }
+
 }

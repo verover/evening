@@ -1,9 +1,10 @@
 package com.enigmacamp.evening.service.Impl;
 
-import java.util.Optional;
+import java.util.*;
 
 import javax.transaction.Transactional;
 
+import com.enigmacamp.evening.entity.EventDetail;
 import com.enigmacamp.evening.entity.TicketDetail;
 import com.enigmacamp.evening.exception.NotFoundException;
 import com.enigmacamp.evening.repository.TicketDetailRepository;
@@ -38,6 +39,15 @@ public class TicketDetailServiceImpl implements TicketDetailService {
     public TicketDetail update(String id, TicketDetail ticketDetail) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public List<EventDetail> readByTicketId(Set<TicketDetail> ticket) {
+        List<EventDetail> ticketDetails = new ArrayList<>();
+        for (TicketDetail detail:ticket) {
+            ticketDetails.add(detail.getEventDetail());
+        }
+        return ticketDetails;
     }
 
     @Override

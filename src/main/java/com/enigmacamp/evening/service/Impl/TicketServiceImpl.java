@@ -1,16 +1,15 @@
 package com.enigmacamp.evening.service.Impl;
 
-import java.util.Optional;
+import java.util.*;
 
 import javax.transaction.Transactional;
 
 import com.enigmacamp.evening.dto.TicketDTO;
-import com.enigmacamp.evening.entity.Event;
-import com.enigmacamp.evening.entity.EventDetail;
 import com.enigmacamp.evening.entity.Ticket;
 import com.enigmacamp.evening.entity.TicketDetail;
 import com.enigmacamp.evening.exception.NotFoundException;
 import com.enigmacamp.evening.payload.request.TicketRequest;
+import com.enigmacamp.evening.payload.response.TicketResponse;
 import com.enigmacamp.evening.repository.TicketRepository;
 import com.enigmacamp.evening.service.EventDetailService;
 import com.enigmacamp.evening.service.EventService;
@@ -42,22 +41,17 @@ public class TicketServiceImpl implements TicketService{
 
     @Override
     public Ticket create(String eventId, TicketRequest ticket) {
-        Event event = eventService.getById(eventId);
-        Ticket requestTicket = new Ticket(ticket.getTitle(), ticket.getDescription(), 
-            ticket.getPrice(), ticket.getStock(), ticket.getMinAmmount(), 
-            ticket.getMaxAmmount(), ticket.getTicketDetails());
-        requestTicket.setEvent(event);
-        Ticket saveTicket = ticketRepository.save(requestTicket);
-
-        // for(TicketDetail ticketDetail : saveTicket.getTicketDetails()){
-        //     // TODO: Check event detail is valid with corresponding event.
-        //     // TODO: Check if event detail only allowed once.
-        //     EventDetail eventDetail = eventDetailService.readById();
-        //     // If event detail pass all validations:
-        //     ticketDetail.setTicket(requestTicket);
-        //     ticketDetailService.create(ticketDetail);
-        // }
-        return requestTicket;
+        Ticket newTicket = ticketRepository.save(new Ticket(eventService.getById(eventId), ticket.getTitle(),
+                ticket.getDescription(), ticket.getPrice(), ticket.getStock(),
+                ticket.getMinAmmount(), ticket.getMaxAmmount()));
+        Set<TicketDetail> ticketDetails = new HashSet<>();
+        for(String eventDetail: ticket.getTicketDetail()){
+            TicketDetail ticketDetail = new TicketDetail(newTicket, eventDetailService.getById(eventDetail));
+            ticketDetails.add(ticketDetail);
+            ticketDetailService.create(ticketDetail);
+        }
+        newTicket.setTicketDetail(ticketDetails);
+        return ticketRepository.save(newTicket);
     }
 
     @Override
@@ -76,13 +70,13 @@ public class TicketServiceImpl implements TicketService{
     public Ticket update(String eventId, String id, Ticket ticket) {
         try{
             Ticket defaultTicket = readByIdOrThrowNotFound(eventId, id);
-            Ticket updateTicket = ticketRepository.save(ticket);
-            for(TicketDetail ticketDetail : updateTicket.getTicketDetails()){
-                //checking if the corresponding tickets is already on the list
-                //check the validation
-                //if the details are not on the list just create new one
-            }
-            return updateTicket;
+            // Ticket updateTicket = ticketRepository.save(ticket);
+            // for(TicketDetail ticketDetail : updateTicket.getTicketDetails()){
+            //     //checking if the corresponding tickets is already on the list
+            //     //check the validation
+            //     //if the details are not on the list just create new one
+            // }
+            return defaultTicket;
         }catch(Exception ex){
             throw new NotFoundException("Sorry, ticket update is failed!");
         }
@@ -108,5 +102,21 @@ public class TicketServiceImpl implements TicketService{
         eventService.getById(eventId);
         Specification<Ticket> specification = TicketSpecification.getSpecification(ticketDTO);
         return ticketRepository.findAll(specification, pageable);
+    }
+
+    @Override
+    public TicketResponse convertTicket(Ticket ticket) {
+        return new TicketResponse(ticket.getId(), ticket.getEvent().getName(), ticket.getTitle(), ticket.getDescription(),
+                ticket.getPrice(), ticket.getStock(), ticket.getMinAmmount(), ticket.getMaxAmmount(),
+                ticketDetailService.readByTicketId(ticket.getTicketDetail()));
+    }
+
+    @Override
+    public List<TicketResponse> convertAllTicket(List<Ticket> tickets) {
+        List<TicketResponse> responses = new ArrayList<>();
+        for (Ticket ticket: tickets) {
+            responses.add(convertTicket(ticket));
+        }
+        return responses;
     }
 }

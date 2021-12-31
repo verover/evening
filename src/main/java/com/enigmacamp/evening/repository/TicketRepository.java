@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.enigmacamp.evening.entity.Ticket;
 
+import com.enigmacamp.evening.payload.response.TicketResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -17,4 +18,5 @@ public interface TicketRepository extends JpaRepository<Ticket, String>{
 
     @Query(value = "SELECT t FROM Ticket t WHERE t.isDeleted = false AND t.id = ?1")
     Optional<Ticket> getActiveTicket(String id);
+
 }
