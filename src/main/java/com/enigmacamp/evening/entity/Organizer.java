@@ -30,14 +30,18 @@ public class Organizer {
     @Column(nullable = false)
     private String website;
 
+    @Column(nullable = false)
+    private String location;
 
-    public Organizer(String id, String name, String address, String organization_email, String organization_phone, String website) {
+
+    public Organizer(String id, String name, String address, String organization_email, String organization_phone, String website,String location) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.organization_email = organization_email;
         this.organization_phone = organization_phone;
         this.website = website;
+        this.location = location;
     }
 
     public Organizer() {
@@ -89,5 +93,13 @@ public class Organizer {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

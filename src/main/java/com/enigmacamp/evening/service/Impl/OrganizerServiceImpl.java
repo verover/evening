@@ -1,9 +1,14 @@
 package com.enigmacamp.evening.service.Impl;
 
+import com.enigmacamp.evening.dto.OrganizerDTO;
 import com.enigmacamp.evening.entity.Organizer;
 import com.enigmacamp.evening.repository.OrganizerRepository;
 import com.enigmacamp.evening.service.OrganizerService;
+import com.enigmacamp.evening.specification.OrganizerSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -33,10 +38,12 @@ public class OrganizerServiceImpl implements OrganizerService {
         }
     }
 
-    @Override
-    public List<Organizer> list() {
-        return organizerRepository.findAll();
 
+
+    @Override
+    public Page<Organizer> listWithPage(Pageable pageable, OrganizerDTO organizerDTO) {
+        Specification <Organizer> specification = OrganizerSpecification.getSpecification(organizerDTO);
+       return organizerRepository.findAll(specification, pageable);
     }
 
     @Override
@@ -50,6 +57,13 @@ public class OrganizerServiceImpl implements OrganizerService {
         currentOrganizer.setWebsite(organizer.getWebsite());
 
         return organizerRepository.save(currentOrganizer);
+    }
+
+    @Override
+    public String delete(String id) {
+        Organizer organizer = getOrganizerById(id);
+        organizerRepository.delete(organizer);
+        return String.format("Organizer dengan id %s berhasil dihapus",organizer.getId());
     }
 
 
