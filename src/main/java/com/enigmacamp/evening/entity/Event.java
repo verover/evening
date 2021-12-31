@@ -10,6 +10,10 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.*;
 
 @Data
@@ -25,9 +29,15 @@ public class Event {
 
     private String organizerId;
 
+    @NotBlank(message = "Name is Mandatory")
+    @NotEmpty(message = "Name is Required")
+    @Size(min = 9, max = 50)
+    @Pattern(regexp = "^[A-Za-z0-9? ,_-]+$",message = "Name accepts only Alphanumeric value")
     @Column(nullable = false)
     private String name;
 
+    @NotBlank(message = "Banner or Image is Mandatory")
+    @NotEmpty(message = "Banner or Image Required")
     @Column(nullable = false)
     private String bannerImage;
 

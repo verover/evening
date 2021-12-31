@@ -21,5 +21,6 @@ public interface EventRepository extends JpaRepository<Event,String> {
 
 //    @Query("SELECT v FROM Event v WHERE Event.EventDetail.date between :from and :until")
 //    Page<Event> findBetweenDate(@PathParam("from") String from, @PathParam("until") String until, Pageable pageable);
+
 }
 

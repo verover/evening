@@ -23,19 +23,26 @@ public class EventDetailServiceImpl implements EventDetailService{
     EventService  eventService;
 
     @Override
+    public EventDetail save(EventDetail eventDetail) {
+        return eventDetailRepository.save(eventDetail);
+    }
+
+    @Override
     public EventDetail getById(String id) {
         return this.findByOrThrowNotFound(id);
     }
 
     @Override
     public EventDetail updateById(String id, EventDetail eventDetail) {
+        EventDetail defEventDetail = this.getById(id);
         eventDetail.setEventDetailId(id);
+        eventDetail.setEvent(defEventDetail.getEvent());
         return eventDetailRepository.save(eventDetail);
     }
 
     public EventDetail findByOrThrowNotFound(String id) {
         Optional<EventDetail> eventDetail = this.eventDetailRepository.findById(id);
-        if (eventDetail.isPresent()) {
+        if (eventDetail.isPresent() && eventDetail.get().getIsDeleted() == false) {
             return eventDetail.get();
         }
         throw new NotFoundException("EventDetail is not found");

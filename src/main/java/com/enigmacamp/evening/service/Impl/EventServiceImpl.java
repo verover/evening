@@ -9,6 +9,7 @@ import com.enigmacamp.evening.exception.NotFoundException;
 import com.enigmacamp.evening.repository.EventDetailRepository;
 import com.enigmacamp.evening.repository.EventRepository;
 import com.enigmacamp.evening.service.CategoryService;
+import com.enigmacamp.evening.service.EventDetailService;
 import com.enigmacamp.evening.service.EventService;
 import com.enigmacamp.evening.service.TopicsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class EventServiceImpl implements EventService {
     TopicsService topicsService;
 
     @Autowired
-    EventDetailRepository eventDetailRepository;
+    EventDetailService eventDetailService;
 
     @Override
     public Event save(EventRequest eventRequest) {
@@ -49,7 +50,7 @@ public class EventServiceImpl implements EventService {
         event.setEventDetails(eventRequest.getEventDetails());
         for(EventDetail eventDetail : event.getEventDetails()){
             eventDetail.setEvent(event);
-            eventDetailRepository.save(eventDetail);
+            eventDetailService.save(eventDetail);
         }
         Event saveEvent = eventRepository.save(event);
         return saveEvent;
@@ -78,7 +79,7 @@ public class EventServiceImpl implements EventService {
 
     public Event findByOrThrowNotFound(String id) {
         Optional<Event> event = this.eventRepository.findById(id);
-        if (event.isPresent()) {
+        if (event.isPresent() && event.get().getIsDeleted() == false) {
             return event.get();
         }
         throw new NotFoundException("Event is not found");
@@ -117,7 +118,7 @@ public class EventServiceImpl implements EventService {
         if(eventRequest.getEventDetails() != null) {
             for (EventDetail eventDetail : eventRequest.getEventDetails()) {
                 eventDetail.setEvent(saveEvent);
-                eventDetailRepository.save(eventDetail);
+                eventDetailService.save(eventDetail);
                 saveEvent.getEventDetails().add(eventDetail);
             }
         }
