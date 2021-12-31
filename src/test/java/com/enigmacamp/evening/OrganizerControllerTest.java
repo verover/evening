@@ -47,7 +47,6 @@ public class OrganizerControllerTest {
          organizer.setOrganization_email("eventpku@gmail.com");
          organizer.setOrganization_phone("081278469837");
          organizer.setWebsite("eventpku.com");
-         organizer.setLocation("pekanbaru");
      }
 
      @Test
@@ -62,8 +61,7 @@ public class OrganizerControllerTest {
                         "\"address\" : " + "\"pekanbaru\","+
                         "\"organization_email\" : " + "\"eventpku@gmail.com\","+
                         "\"organization_phone\" : " + "\"081278469837\","+
-                        "\"website\" : " + "\"eventpku.com\","+
-                        "\"location\" : " + "\"pekanbaru\""+
+                        "\"website\" : " + "\"eventpku.com\""+
                          "}");
 
          mockMvc.perform(requestBuilder)
@@ -90,7 +88,7 @@ public class OrganizerControllerTest {
      @Test
     void deleteOrganizerById_Success() throws Exception{
          String organizerId ="asd12";
-         Organizer newOrganizer = new Organizer(organizerId,"event pku","pekanbaru","eventpku@gmail.com", "081278469837","eventpku.com", "pekanbaru");
+         Organizer newOrganizer = new Organizer(organizerId,"event pku","pekanbaru","eventpku@gmail.com", "081278469837","eventpku.com");
 
          given(service.getOrganizerById(organizerId)).willReturn(newOrganizer);
 
