@@ -1,9 +1,12 @@
 package com.enigmacamp.evening.dto;
 
 
-import lombok.Data;
+import lombok.*;
 
-@Data
+
+@Setter @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class EventDTO {
     private String searchByName;
     private String searchByTopics;

@@ -1,14 +1,16 @@
 package com.enigmacamp.evening.entity;
 
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
-@Data
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="mst_category",uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})})
 public class Category {

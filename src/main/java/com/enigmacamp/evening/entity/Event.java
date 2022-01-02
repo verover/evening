@@ -1,23 +1,20 @@
 package com.enigmacamp.evening.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.*;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.*;
 
-@Data
-@Entity
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name="mst_event")
 @JsonIgnoreProperties(value = { "eventDetails" })
 public class Event {

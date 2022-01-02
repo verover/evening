@@ -1,18 +1,18 @@
 package com.enigmacamp.evening.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.*;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.util.Date;
 
-@Data
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="trx_event_detail")
 public class EventDetail {

@@ -1,26 +1,29 @@
 package com.enigmacamp.evening.repository;
 
 import com.enigmacamp.evening.entity.Event;
+import com.enigmacamp.evening.entity.Ticket;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import javax.websocket.server.PathParam;
 
+@Repository
 public interface EventRepository extends JpaRepository<Event,String> {
 
-    @Query("SELECT v from Event v where isDeleted = false")
-    Page<Event> findAll(Pageable pageable);
+    Page<Event> findAll(Specification<Event> specification, Pageable pageable);
 
-    @Query("SELECT v FROM Event v WHERE isDeleted = false and LOWER(v.topics.name) LIKE LOWER(:name)")
-    Page<Event> findByNameTopic(@PathParam("name") String name,Pageable pageable);
-
-    @Query("SELECT v FROM Event v WHERE isDeleted = false and LOWER(v.name) LIKE LOWER(:name)")
-    Page<Event> findByName(@PathParam("name") String name,Pageable pageable);
-
-//    @Query("SELECT v FROM Event v WHERE Event.EventDetail.date between :from and :until")
-//    Page<Event> findBetweenDate(@PathParam("from") String from, @PathParam("until") String until, Pageable pageable);
+//    @Query("SELECT v FROM Event v WHERE isDeleted = false and LOWER(v.topics.name) LIKE LOWER(:name)")
+//    Page<Event> findByNameTopic(@PathParam("name") String name,Pageable pageable);
+//
+//    @Query("SELECT v FROM Event v WHERE isDeleted = false and LOWER(v.name) LIKE LOWER(:name)")
+//    Page<Event> findByName(@PathParam("name") String name,Pageable pageable);
+//
+////    @Query("SELECT v FROM Event v WHERE Event.EventDetail.date between :from and :until")
+////    Page<Event> findBetweenDate(@PathParam("from") String from, @PathParam("until") String until, Pageable pageable);
 
 }
 
