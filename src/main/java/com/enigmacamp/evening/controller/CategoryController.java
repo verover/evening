@@ -1,6 +1,7 @@
 package com.enigmacamp.evening.controller;
 
 import com.enigmacamp.evening.entity.Category;
+import com.enigmacamp.evening.exception.InvalidInputException;
 import com.enigmacamp.evening.service.CategoryService;
 import com.enigmacamp.evening.util.PageResponse;
 import com.enigmacamp.evening.payload.response.EventResponse;
@@ -28,18 +29,11 @@ public class CategoryController {
     public ResponseEntity<EventResponse<Category>> create(@Valid @RequestBody Category category, Errors errors){
         EventResponse<Category> response = new EventResponse<>();
         if(errors.hasErrors()){
-            for (ObjectError err : errors.getAllErrors()) {
-                response.getMessages().add(err.getDefaultMessage());
-            }
-            response.setStatus(false);
-            response.setData(null);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            throw new InvalidInputException(errors.getObjectName() + " input is invalid");
         }
         response.getMessages().add("Successfuly Created Category");
         response.setStatus(true);
         response.setData(categoryService.save(category));
-
-
         return ResponseEntity.ok(response);
     }
 
