@@ -12,5 +12,5 @@ import java.util.List;
 public class TicketResponse {
     String id, event, title, description;
     Integer price, stock, minAmmount, maxAmmount;
-    List<EventDetail> validFor;
+    List<TicketDetailResponse> validFor;
 }

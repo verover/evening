@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -32,7 +33,7 @@ public class Ticket {
     @ManyToOne(targetEntity = Event.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id")
     private Event event;
-    
+
     @Column(nullable = false)
     private String title;
     
@@ -45,12 +46,12 @@ public class Ticket {
     private Integer stock;
     
     @Column (nullable = false)
-    private Integer minAmmount;
+    private Integer minAmount;
     
     @Column (nullable = false)
-    private Integer maxAmmount;
+    private Integer maxAmount;
 
-    @OneToMany(targetEntity = TicketDetail.class, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, targetEntity = TicketDetail.class, fetch = FetchType.EAGER)
     @JsonManagedReference
     private Set<TicketDetail> ticketDetail;
 
@@ -79,15 +80,15 @@ public class Ticket {
         this.updatedAt = new Date();
     }
 
-    public Ticket(Event event, String title, String description, Integer price, Integer stock, Integer minAmmount,
-                  Integer maxAmmount) {
+    public Ticket(Event event, String title, String description, Integer price, Integer stock, Integer minAmount,
+                  Integer maxAmount) {
         this.event = event;
         this.title = title;
         this.description = description;
         this.price = price;
         this.stock = stock;
-        this.minAmmount = minAmmount;
-        this.maxAmmount = maxAmmount;
+        this.minAmount = minAmount;
+        this.maxAmount = maxAmount;
     }
 
 }

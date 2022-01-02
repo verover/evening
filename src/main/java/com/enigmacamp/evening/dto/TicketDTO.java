@@ -11,4 +11,6 @@ public class TicketDTO {
 
     private String searchByName;
     private Boolean AvailableTicket;
+    private String firstDate;
+    private String lastDate;
 }

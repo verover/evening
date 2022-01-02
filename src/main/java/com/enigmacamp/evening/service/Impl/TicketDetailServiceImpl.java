@@ -4,10 +4,13 @@ import java.util.*;
 
 import javax.transaction.Transactional;
 
+import com.enigmacamp.evening.entity.Event;
 import com.enigmacamp.evening.entity.EventDetail;
 import com.enigmacamp.evening.entity.TicketDetail;
 import com.enigmacamp.evening.exception.NotFoundException;
+import com.enigmacamp.evening.payload.response.TicketDetailResponse;
 import com.enigmacamp.evening.repository.TicketDetailRepository;
+import com.enigmacamp.evening.service.EventDetailService;
 import com.enigmacamp.evening.service.TicketDetailService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +23,18 @@ public class TicketDetailServiceImpl implements TicketDetailService {
     @Autowired
     TicketDetailRepository ticketDetailRepository;
 
+    @Autowired
+    EventDetailService eventDetailService;
+
     @Override
     public TicketDetail create(TicketDetail ticketDetail) {
-        return ticketDetailRepository.save(ticketDetail);
+        Event event = ticketDetail.getEventDetail().getEvent();
+        Event choosen = eventDetailService.getById(ticketDetail.getEventDetail().getEventDetailId()).getEvent();
+        if(choosen.equals(event)){
+            return ticketDetailRepository.save(ticketDetail);
+        }else{
+            throw new InputMismatchException("Sorry, event not synchronized");
+        }
     }
 
     @Override
@@ -42,17 +54,18 @@ public class TicketDetailServiceImpl implements TicketDetailService {
     }
 
     @Override
-    public List<EventDetail> readByTicketId(Set<TicketDetail> ticket) {
-        List<EventDetail> ticketDetails = new ArrayList<>();
+    public List<TicketDetailResponse> readByTicketId(Set<TicketDetail> ticket) {
+        List<TicketDetailResponse> ticketDetails = new ArrayList<>();
         for (TicketDetail detail:ticket) {
-            ticketDetails.add(detail.getEventDetail());
+            ticketDetails.add(new TicketDetailResponse(detail.getId(), detail.getEventDetail().getEventDetailId(),
+                    detail.getEventDetail().getDate().toString(), detail.getEventDetail().getLocation()));
         }
         return ticketDetails;
     }
 
     @Override
     public void delete(String id) {
-        // TODO Auto-generated method stub
-        
+        TicketDetail ticketDetail = readByIdOrThrowNotFound(id);
+        ticketDetailRepository.delete(ticketDetail);
     }
 }

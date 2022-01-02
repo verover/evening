@@ -1,12 +1,19 @@
 package com.enigmacamp.evening.util;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class PageResponse<T> {
+    @JsonProperty("content")
     List<T> data;
+    @JsonProperty("count")
     private Long count;
+    @JsonProperty("totalPage")
     private  Integer totalPage;
+    @JsonProperty("page")
     private Integer page;
+    @JsonProperty("size")
     private Integer size;
 
     public PageResponse(List<T> data, Long count, Integer totalPage, Integer page, Integer size) {
