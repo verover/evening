@@ -2,8 +2,8 @@ package com.enigmacamp.evening.service.Impl;
 
 import com.enigmacamp.evening.entity.File;
 import com.enigmacamp.evening.exception.NotFoundException;
-import com.enigmacamp.evening.repository.FileRepository;
 import com.enigmacamp.evening.payload.response.FileResponse;
+import com.enigmacamp.evening.repository.FileRepository;
 import com.enigmacamp.evening.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import java.util.Objects;
 public class FileServiceImpl implements FileService {
 
     @Autowired
-    private FileRepository fileRepository;
+    FileRepository fileRepository;
 
     @Override
     public FileResponse create(MultipartFile multipartFile) {
