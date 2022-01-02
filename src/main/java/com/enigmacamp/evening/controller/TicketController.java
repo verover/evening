@@ -2,12 +2,10 @@ package com.enigmacamp.evening.controller;
 
 import com.enigmacamp.evening.dto.TicketDTO;
 import com.enigmacamp.evening.entity.Ticket;
-import com.enigmacamp.evening.entity.TicketDetail;
+import com.enigmacamp.evening.payload.request.ticket.UpdateRequest;
 import com.enigmacamp.evening.payload.request.tickedetail.TicketDetailRequest;
 import com.enigmacamp.evening.payload.request.ticket.CreateRequest;
-import com.enigmacamp.evening.payload.request.ticket.UpdateRequest;
 import com.enigmacamp.evening.payload.response.TicketResponse;
-import com.enigmacamp.evening.service.TicketDetailService;
 import com.enigmacamp.evening.service.TicketService;
 import com.enigmacamp.evening.util.PageResponse;
 import com.enigmacamp.evening.util.WebResponse;
