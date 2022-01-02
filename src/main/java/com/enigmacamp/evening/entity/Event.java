@@ -27,7 +27,9 @@ public class Event {
     @Column(name = "event_id",nullable = false)
     private String eventId;
 
-    private String organizerId;
+    @ManyToOne
+    @JoinColumn(name="id")
+    private Organizer organizer;
 
     @NotBlank(message = "Name is Mandatory")
     @NotEmpty(message = "Name is Required")

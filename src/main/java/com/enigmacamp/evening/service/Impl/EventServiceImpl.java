@@ -1,16 +1,10 @@
 package com.enigmacamp.evening.service.Impl;
 
+import com.enigmacamp.evening.entity.*;
 import com.enigmacamp.evening.payload.request.EventRequest;
-import com.enigmacamp.evening.entity.Category;
-import com.enigmacamp.evening.entity.Event;
-import com.enigmacamp.evening.entity.EventDetail;
-import com.enigmacamp.evening.entity.Topics;
 import com.enigmacamp.evening.exception.NotFoundException;
 import com.enigmacamp.evening.repository.EventRepository;
-import com.enigmacamp.evening.service.CategoryService;
-import com.enigmacamp.evening.service.EventDetailService;
-import com.enigmacamp.evening.service.EventService;
-import com.enigmacamp.evening.service.TopicsService;
+import com.enigmacamp.evening.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,12 +29,16 @@ public class EventServiceImpl implements EventService {
     @Autowired
     EventDetailService eventDetailService;
 
+    @Autowired
+    OrganizerService organizerService;
+
     @Override
     public Event save(EventRequest eventRequest) {
-        Category category = categoryService.getById(eventRequest.getCategory());
-        Topics topics = topicsService.getById(eventRequest.getTopics());
+        Category category = categoryService.getById(eventRequest.getCategoryId());
+        Topics topics = topicsService.getById(eventRequest.getTopicsId());
+        Organizer organizer = organizerService.getOrganizerById(eventRequest.getOrganizerId());
         Event event = new Event();
-        event.setOrganizerId(eventRequest.getOrganizerId());
+        event.setOrganizer(organizer);
         event.setName(eventRequest.getName());
         event.setBannerImage(eventRequest.getBannerImage());
         event.setCategory(category);
@@ -101,12 +99,13 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Event updateById(String id,EventRequest eventRequest) {
-        Category category = categoryService.getById(eventRequest.getCategory());
-        Topics topics = topicsService.getById(eventRequest.getTopics());
+        Category category = categoryService.getById(eventRequest.getCategoryId());
+        Topics topics = topicsService.getById(eventRequest.getTopicsId());
+        Organizer organizer = organizerService.getOrganizerById(eventRequest.getOrganizerId());
         Event defaultEvent = this.getById(id);
         Event event = new Event();
         event.setEventId(id);
-        event.setOrganizerId(eventRequest.getOrganizerId());
+        event.setOrganizer(organizer);
         event.setName(eventRequest.getName());
         event.setBannerImage(eventRequest.getBannerImage());
         event.setCategory(category);

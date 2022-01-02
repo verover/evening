@@ -28,7 +28,6 @@ public class EventDetail {
     @JsonBackReference
     private Event event;
 
-
     @NotNull(message = "Please provide a date.")
     @JsonFormat(pattern = "dd-MM-yyyy")
     @Column(nullable = false)

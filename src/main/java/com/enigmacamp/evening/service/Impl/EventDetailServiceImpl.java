@@ -54,9 +54,9 @@ public class EventDetailServiceImpl implements EventDetailService{
         List<EventDetail> eventDetailList = new ArrayList<>();
         for (EventDetail eventDetail: eventDetails) {
             if (!eventDetail.getIsDeleted())
-            eventDetailList.add(eventDetail);
+                eventDetailList.add(eventDetail);
         }
-            return  eventDetailList;
+        return  eventDetailList;
     }
 
     @Override

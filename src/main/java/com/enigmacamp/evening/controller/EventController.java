@@ -39,11 +39,11 @@ public class EventController {
     @PostMapping
     public ResponseEntity<EventResponse<Event>> createEvent(@Valid @RequestBody EventRequest eventRequest){
 
-            EventResponse<Event> response = new EventResponse<>();
-            response.getMessages().add("Successfuly Created Event");
-            response.setStatus(true);
-            response.setData(eventService.save(eventRequest));
-            return ResponseEntity.ok(response);
+        EventResponse<Event> response = new EventResponse<>();
+        response.getMessages().add("Successfuly Created Event");
+        response.setStatus(true);
+        response.setData(eventService.save(eventRequest));
+        return ResponseEntity.ok(response);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
@@ -77,7 +77,11 @@ public class EventController {
                 page,
                 size
         );
-        WebResponse<PageResponse<Event>> response = new WebResponse<>("Successfully get data Event", pageResponse);
+        String message ="Successfully get data Event by Topics";
+        if (events.getContent().isEmpty()){
+            message = "Events is Empty";
+        }
+        WebResponse<PageResponse<Event>> response = new WebResponse<>(message, pageResponse);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(response);
