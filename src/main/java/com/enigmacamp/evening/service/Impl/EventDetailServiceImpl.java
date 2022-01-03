@@ -2,6 +2,7 @@ package com.enigmacamp.evening.service.Impl;
 
 import com.enigmacamp.evening.entity.Event;
 import com.enigmacamp.evening.entity.EventDetail;
+import com.enigmacamp.evening.exception.InvalidInputException;
 import com.enigmacamp.evening.exception.NotFoundException;
 import com.enigmacamp.evening.repository.EventDetailRepository;
 import com.enigmacamp.evening.service.EventDetailService;
@@ -24,6 +25,16 @@ public class EventDetailServiceImpl implements EventDetailService{
 
     @Override
     public EventDetail save(EventDetail eventDetail) {
+        if(eventDetail.getIsOnline()){
+            if(eventDetail.getLink() == null){
+                throw new InvalidInputException("Link is required");
+            }
+        }
+        else{
+            if(eventDetail.getLocation() == null){
+                throw new InvalidInputException("Location is required");
+            }
+        }
         return eventDetailRepository.save(eventDetail);
     }
 

@@ -10,4 +10,7 @@ import lombok.*;
 public class EventDTO {
     private String searchByName;
     private String searchByTopics;
+    private String firstDate;
+    private String lastDate;
+
 }

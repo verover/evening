@@ -14,6 +14,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -57,7 +59,14 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Event getById(String id) {
-        return findByOrThrowNotFound(id);
+        Event event = findByOrThrowNotFound(id);
+        List<EventDetail> eventDetailList = new ArrayList<>();
+        for (EventDetail e : event.getEventDetails()) {
+            if(e.getIsDeleted() == false)
+                eventDetailList.add(e);
+        }
+        event.setEventDetails(eventDetailList);
+        return event;
     }
 
     @Override

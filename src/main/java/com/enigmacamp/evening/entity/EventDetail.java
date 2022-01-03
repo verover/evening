@@ -3,6 +3,7 @@ package com.enigmacamp.evening.entity;
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -29,15 +30,16 @@ public class EventDetail {
     private Event event;
 
     @NotNull(message = "Please provide a date.")
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(nullable = false)
     private Date date;
 
-    @NotBlank(message = "Location is Mandatory")
-    @NotEmpty(message = "Location is Required")
-    @Column(nullable = false)
+    private Boolean isOnline;
+
     private String location;
 
-    @JsonIgnore
+    private String link;
+
+//    @JsonIgnore
     private Boolean isDeleted = Boolean.FALSE;
 }

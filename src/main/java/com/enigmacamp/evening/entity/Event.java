@@ -15,8 +15,8 @@ import java.util.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 @Table(name="mst_event")
-@JsonIgnoreProperties(value = { "eventDetails" })
 public class Event {
     @Id
     @GeneratedValue(generator = "system-uuid")

@@ -44,10 +44,12 @@ public class EventController {
             @RequestParam(name = "size", defaultValue = "10") Integer size,
             @RequestParam(name = "page", defaultValue = "0") Integer page,
             @RequestParam(name = "name", required = false) String name,
-            @RequestParam(name = "topics", required = false) String topics
+            @RequestParam(name = "topics", required = false) String topics,
+            @RequestParam(name = "startDate", required = false) String startDate,
+            @RequestParam(name = "endDate", required = false) String endDate
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        EventDTO eventDTO = new EventDTO(name,topics);
+        EventDTO eventDTO = new EventDTO(name,topics,startDate,endDate);
         Page<Event> events = this.eventService.listWithPage(pageable,eventDTO);
         PageResponse<Event> pageResponse = new PageResponse<>(
                 events.getContent(),
@@ -56,13 +58,16 @@ public class EventController {
                 page,
                 size
         );
-
-        WebResponse<PageResponse<Event>> response = new WebResponse<>("Successfully get data Event", pageResponse);
-
+        String msg = "";
+        if(events.getContent().isEmpty()){
+            msg = "Event is not available";
+        }else {
+            msg = "Successfuly get data event";
+        }
+        WebResponse<PageResponse<Event>> response = new WebResponse<>(msg, pageResponse);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(response);
-
     }
 
     @GetMapping(value = "/{eventId}")
@@ -81,85 +86,6 @@ public class EventController {
                 .body(webResponse);
     }
 
-//    @GetMapping("/search/topics/{name}")
-//    public ResponseEntity<WebResponse<PageResponse<Event>>>  getEventByTopicsName(
-//            @RequestParam(name = "size", defaultValue = "10") Integer size,
-//            @RequestParam(name = "page", defaultValue = "0") Integer page,
-//            @PathVariable("name") String name
-//    ){
-//        Pageable  pageable = PageRequest.of(page,size);
-//        Page<Event> event = this.eventService.findByTopics(pageable,"%" + name +"%");
-//
-//        PageResponse<Event> pageResponse = new PageResponse<>(
-//                event.getContent(),
-//                event.getTotalElements(),
-//                event.getTotalPages(),
-//                page,
-//                size
-//        );
-//        String message ="Successfully get data Event by Topics";
-//        if (event.getContent().isEmpty()){
-//            message = "Events is not Found";
-//        }
-//        WebResponse<PageResponse<Event>> response = new WebResponse<>(message, pageResponse);
-//        return ResponseEntity
-//                .status(HttpStatus.OK)
-//                .body(response);
-//    }
-//
-//
-//    @GetMapping("/search/date/{from}/{until}")
-//    public ResponseEntity<WebResponse<PageResponse<Event>>>  findBetweenDate(
-//            @RequestParam(name = "size", defaultValue = "10") Integer size,
-//            @RequestParam(name = "page", defaultValue = "0") Integer page,
-//            @PathVariable("from") String from,
-//            @PathVariable("until") String until
-//    ){
-//        Pageable  pageable = PageRequest.of(page,size);
-//        Page<Event> event = this.eventService.findBetweenDate(pageable,from,until);
-//
-//        PageResponse<Event> pageResponse = new PageResponse<>(
-//                event.getContent(),
-//                event.getTotalElements(),
-//                event.getTotalPages(),
-//                page,
-//                size
-//        );
-//
-//        WebResponse<PageResponse<Event>> response = new WebResponse<>("Successfully get data Event by Topics", pageResponse);
-//
-//        return ResponseEntity
-//                .status(HttpStatus.OK)
-//                .body(response);
-//    }
-//
-//
-//
-//    @GetMapping("/search/{name}")
-//    public ResponseEntity<WebResponse<PageResponse<Event>>>  findEventByName(
-//            @RequestParam(name = "size", defaultValue = "10") Integer size,
-//            @RequestParam(name = "page", defaultValue = "0") Integer page,
-//            @PathVariable("name") String name
-//    ){
-//        Pageable  pageable = PageRequest.of(page,size);
-//        Page<Event> event = this.eventService.findByName(pageable,"%" + name +"%");
-//        PageResponse<Event> pageResponse = new PageResponse<>(
-//                event.getContent(),
-//                event.getTotalElements(),
-//                event.getTotalPages(),
-//                page,
-//                size
-//        );
-//        String message ="Successfully get data Event by Name";
-//        if (event.getContent().isEmpty()){
-//            message = "Events is not Found";
-//        }
-//        WebResponse<PageResponse<Event>> response = new WebResponse<>(message, pageResponse);
-//        return ResponseEntity
-//                .status(HttpStatus.OK)
-//                .body(response);
-//    }
-
     @PutMapping(value = "/{id}")
     public ResponseEntity<WebResponse<Event>> udpateEventById(@PathVariable("id") String id,@RequestBody EventRequest eventRequest){
          Event event = eventService.updateById(id,eventRequest);
@@ -175,17 +101,6 @@ public class EventController {
     public ResponseEntity<WebResponse<EventDetail>> updateEventDetailById(@PathVariable("id") String id,@RequestBody EventDetail eventDetail){
         EventDetail saveEventDetail = eventDetailService.updateById(id, eventDetail);
         return ResponseEntity.status(HttpStatus.OK).body(new WebResponse<>("Successfuly update Event Detail",saveEventDetail));
-    }
-
-    @GetMapping(value = "/eventdetails/{id}")
-    public List<EventDetail> findEventDetailsByEventId(@PathVariable("id")String id){
-        return eventDetailService.findByEventId(id);
-    }
-
-    @GetMapping(value = "/eventdetail/{id}")
-    public ResponseEntity<WebResponse<EventDetail>> findEventDetailById(@PathVariable("id")String id){
-        EventDetail eventDetail = eventDetailService.getById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(new WebResponse<>("Success get Event Detail",eventDetail));
     }
 
     @DeleteMapping(value = "eventdetail/{eventDetailId}")
